@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Купить Головоломку "Мудрец механики". Крутить гайки</title>
+    <link rel="stylesheet" href="style.css">
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110229480', 'ym');
+
+    ym(110229480, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/110229480" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<!-- Шапка сайта -->
+   <header>
+    <div class="container header-content" style="justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- КЛИКАБЕЛЬНЫЙ ЛОГОТИП: Оборачиваем картинку в ссылку на главную страницу -->
+            <a href="index.html" style="display: block; line-height: 0;">
+                <img src="img/logo.png" alt="Логотип магазина" class="site-logo">
+            </a>
+            <div class="brand-name">Aktify.ru Магазин головоломок</div>
+        </div>
+        
+        <nav style="display: flex; gap: 20px; font-weight: 600;">
+            <a href="index.html" style="color: var(--text-main); text-decoration: none;">Главная</a>
+            <a href="blog.html" style="color: var(--text-main); text-decoration: none; display: none;">Блог</a>
+        </nav>
+    </div>
+</header>
+
+    <div class="container">
+        <!-- Основная карточка товара -->
+        <main class="product-main">
+            
+            <!-- Галерея (Левая колонка) -->
+           <div class="gallery-container">
+    <!-- Миниатюры слева -->
+    <div class="thumbnails">
+        <!-- Обычные фото -->
+        <img src="img/slide1_1.png" class="thumb" onclick="changeMedia('image', this.src)" alt="Превью 1">
+        <img src="img/slide1_2.png" class="thumb" onclick="changeMedia('image', this.src)" alt="Превью 2">
+		 <img src="img/korobka.png" class="thumb" onclick="changeMedia('image', this.src)" alt="Превью 3">
+        <img src="img/slide1_3.png" class="thumb" onclick="changeMedia('image', this.src)" alt="Превью 4"> 
+		 <img src="img/slide1_4.png" class="thumb" onclick="changeMedia('image', this.src)" alt="Превью 5">
+        <!-- МИНИАТЮРА ДЛЯ ВИДЕО (Используйте иконку или кадр из видео) -->
+        <div class="thumb video-thumb" onclick="changeMedia('video', 'img/video1.mp4')">
+            <span class="play-icon">▶</span>
+        </div>
+    </div>
+
+    <!-- Главное окно просмотра -->
+    <div class="main-image-box">
+        <!-- Контейнер для фото -->
+        <img src="img/slide1_1.png" id="mainImg" class="main-image" alt="Основное фото товара">
+        
+        <!-- Скрытый по умолчанию контейнер для видео (с автовоспроизведением и звуком) -->
+        <video id="mainVideo" class="main-video" controls muted playsinline style="display: none;">
+            <source src="" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </div>
+</div>
+
+            <!-- Инфо и покупка (Правая колонка) -->
+            <div class="product-info">
+                <h1>Головоломка Мудрец механики. Подарок мужчине. Классическая задача - крутить гайки в стесненных условиях</h1>
+                
+                <!-- Блок корзины -->
+                <div class="purchase-card">
+    <div class="price-block">
+        <!-- Сюда добавляем id="total-price", чтобы скрипт мог менять цену -->
+        <span class="current-price" id="total-price">990 ₽</span>
+     <!--   <span class="ozon-badge">c Ozon Картой</span> -->
+    </div>
+    
+    <!-- НОВЫЙ БЛОК: Выбор количества -->
+    <div class="quantity-selector">
+        <label for="product-qty">Количество:</label>
+        <select id="product-qty" onchange="updateCartLink()">
+            <option value="1">1 шт.</option>
+            <option value="2">2 шт.</option>
+            <option value="3">3 шт.</option>
+        </select>
+    </div>
+    
+    <!-- Кнопка покупки с id="ozon-buy-btn" -->
+    <a href="https://ozon.ru" target="_blank" id="ozon-buy-btn" class="btn-ozon-pay">
+        Купить с Ozon Pay
+    </a>
+	<p class="ozon-delivery-note">Способы и сроки доставки подтянутся автоматически при оформлении заказа.</p>
+</div>
+</div>
+
+
+                <!-- Короткие характеристики -->
+                <div class="specs-short">
+                    <h3>Краткие характеристики</h3>
+                    <div class="spec-row">
+                        <span class="spec-name">Тип</span>
+                        <span class="spec-value">Головоломка/Сувенир</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Страна-изготовитель</span>
+                        <span class="spec-value">Россия</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Комплектация</span>
+                        <span class="spec-value">Головоломка, подарочная коробка</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Рич-контент (Нижний большой блок) -->
+        <section class="rich-content">
+            <h2>Описание товара</h2>
+            
+            <!-- Баннер 1 (Картинка слева, текст справа) -->
+            <div class="rich-banner">
+                <img src="img/rich1_1.png" alt="Преимущество 1">
+                <div class="rich-text">
+                    <h3>Задача: Вынуть все предметы из бутылки, а затем вернуть все в исходное состояние.</h3>
+                    <p> Собрать будет труднее чем разобрать. Видеоинструкция по решению головоломки прилагается.
+</p>
+                </div>
+            </div>
+
+            <!-- Баннер 2 (Картинка справа, текст слева) -->
+            <div class="rich-banner" style="flex-direction: row-reverse;">
+                <img src="img/rich1_2.png" alt="Преимущество 2">
+                <div class="rich-text">
+                    <h3>100% цельный массив бука без клея и скрытых швов.</h3>
+                    <p>Каждый компонент изготавливается и собирается вручную. Качество каждого экземпляра проверяется. 
+</p>
+                </div>
+            </div>
+			<!-- Баннер 3 (Картинка слева, текст справа) -->
+            <div class="rich-banner">
+                <img src="img/rich1_3.png" alt="Преимущество 1">
+                <div class="rich-text">
+                    <h3>Готовое премиальное решение для подарка.</h3>
+                    <p>Строгий геометрический дизайн упаковки подчеркивает статус изделия. Идеальный солидный презент для мужчины, инженера, руководителя или коллеги, у которого уже есть все. Вам не нужно думать о подарочной обертке.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+<footer style="text-align: center; padding: 40px 0; border-top: 1px solid #e4e8ee; margin-top: 40px;">
+    <p style="font-size: 14px; color: #808694;">
+        © 2026 Aktify.ru. Все права защищены. <br>
+        <a href="legal.html" style="color: #005bff; text-decoration: none; margin: 0 10px;">Юридическая информация и оферта</a>
+    </p>
+</footer>
+    <!-- Скрипт для работы галереи -->
+    <script>
+function changeMedia(type, src) {
+    const imgElement = document.getElementById('mainImg');
+    const videoElement = document.getElementById('mainVideo');
+
+    if (type === 'image') {
+        // Показываем картинку, прячем и выключаем видео
+        videoElement.style.display = 'none';
+        videoElement.pause();
+        
+        imgElement.src = src;
+        imgElement.style.display = 'block';
+    } else if (type === 'video') {
+        // Прячем картинку, показываем и запускаем видео
+        imgElement.style.display = 'none';
+        
+        videoElement.src = src;
+        videoElement.style.display = 'block';
+        videoElement.load();
+        videoElement.play(); // Видео включится автоматически
+    }
+}
+</script>
+
+	<script>
+function updateCartLink() {
+    // 1. Укажите базовые данные вашего товара
+    const basePrice = 990; // Цена за 1 штуку в рублях (числом)
+    const sku = "ВАШ_SKU_ТОВАРА"; // Замените на реальный SKU товара из Ozon Seller
+    
+    // 2. Получаем выбранное количество
+    const qty = document.getElementById('product-qty').value;
+    
+    // 3. Расчитываем новую стоимость и красиво форматируем её с пробелом
+    const totalPrice = basePrice * qty;
+    const formattedPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+    
+    // 4. Обновляем цену на экране
+    document.getElementById('total-price').innerText = formattedPrice;
+    
+    // 5. Формируем новую диплинк-ссылку Ozon с параметром количества &qty=
+    const newLink = `https://ozon.ru{sku}&qty=${qty}&from_deeplink=1`;
+    
+    // 6. Подставляем новую ссылку в кнопку
+    document.getElementById('ozon-buy-btn').href = newLink;
+}
+</script>
+<!-- Плашка уведомления о Cookie -->
+<div id="cookie-notice" class="cookie-banner">
+    <p>Мы используем файлы cookie для улучшения работы сайта и сбора статистики через Яндекс Метрику. Оставаясь на сайте, вы соглашаетесь с условиями нашей <a href="legal.html">Политики конфиденциальности</a>.</p>
+    <button onclick="acceptCookies()">Принять</button>
+</div>
+<script>
+    function acceptCookies() {
+        document.getElementById('cookie-notice').style.display = 'none';
+        localStorage.setItem('cookiesAccepted', 'true');
+    }
+
+    // Проверяем, нажимал ли пользователь кнопку ранее
+    if (localStorage.getItem('cookiesAccepted') === 'true') {
+        document.getElementById('cookie-notice').style.display = 'none';
+    }
+</script>
+</body>
+</html>
