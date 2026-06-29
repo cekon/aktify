@@ -297,6 +297,7 @@ header {
     margin-bottom: 25px;
 }
 
+./* Исправленные стили для Рич-контента */
 .rich-banner {
     background-color: var(--bg-gray);
     border-radius: 16px;
@@ -307,19 +308,29 @@ header {
     gap: 30px;
 }
 
+/* Это правило меняет местами текст и фото ТОЛЬКО на экранах компьютеров */
+.rich-banner.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Адаптив для смартфонов и планшетов */
 @media (max-width: 768px) {
-    .rich-banner { flex-direction: column; text-align: center; padding: 20px; }
+    .rich-banner, 
+    .rich-banner.reverse { 
+        flex-direction: column; /* На смартфонах ВСЕ баннеры строго встают в колонку */
+        text-align: center; 
+        padding: 20px; 
+    }
+    
+    .rich-banner img,
+    .rich-banner.reverse img { 
+        width: 100%; 
+        max-width: 100%; /* Картинка займет всю ширину экрана смартфона */
+    }
 }
 
-.rich-banner img {
-    width: 40%;
-    max-width: 300px;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: 12px;
-}
 
-@media (max-width: 768px) { .rich-banner img { width: 100%; } }
+
 
 .rich-text h3 { font-size: 20px; margin-top: 0; }
 .rich-text p { color: #4e5361; line-height: 1.6; }
