@@ -286,6 +286,7 @@ header {
 .spec-value { font-weight: 500; }
 
 /* Рич-контент секция */
+/* Новые вертикальные стили для Рич-контента (Компьютер + Мобильные) */
 .rich-content {
     border-top: 2px solid var(--bg-gray);
     padding-top: 40px;
@@ -295,37 +296,55 @@ header {
 .rich-content h2 {
     font-size: 22px;
     margin-bottom: 25px;
+    text-align: left; /* Заголовок "Описание товара" будет ровно по левому краю, как на Ozon */
 }
 
-./* Исправленные стили для Рич-контента */
-.rich-banner {
+.rich-banner-vertical {
     background-color: var(--bg-gray);
     border-radius: 16px;
     padding: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     display: flex;
-    align-items: center;
-    gap: 30px;
+    flex-direction: column; /* Элементы ВСЕГДА идут сверху вниз */
+    align-items: center;    /* Центрируем картинку и текст по горизонтали */
+    text-align: center;     /* Центрируем сам текст внутри блока */
+    box-sizing: border-box;
 }
 
-/* Это правило меняет местами текст и фото ТОЛЬКО на экранах компьютеров */
-.rich-banner.reverse {
-    flex-direction: row-reverse;
+.rich-banner-vertical img {
+    width: 100%;
+    max-width: 800px;       /* Ограничиваем максимальную ширину картинки на ПК, чтобы она не была гигантской */
+    aspect-ratio: 3 / 4;    /* Ваши фирменные вертикальные пропорции */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;    /* Отступ между картинкой и текстом под ней */
 }
 
-/* Адаптив для смартфонов и планшетов */
+.rich-text-vertical {
+    max-width: 800px;       /* Чтобы текст на ПК не растягивался во всю ширину экрана и легко читался */
+}
+
+.rich-text-vertical h3 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--text-main);
+}
+
+.rich-text-vertical p {
+    color: #4e5361;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* Адаптив под смартфоны */
 @media (max-width: 768px) {
-    .rich-banner, 
-    .rich-banner.reverse { 
-        flex-direction: column; /* На смартфонах ВСЕ баннеры строго встают в колонку */
-        text-align: center; 
-        padding: 20px; 
+    .rich-banner-vertical {
+        padding: 20px; /* Уменьшаем внутренние отступы серой плашки на мобильных */
     }
-    
-    .rich-banner img,
-    .rich-banner.reverse img { 
-        width: 100%; 
-        max-width: 100%; /* Картинка займет всю ширину экрана смартфона */
+    .rich-banner-vertical img {
+        margin-bottom: 15px;
     }
 }
 
