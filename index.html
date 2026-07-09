@@ -13,10 +13,16 @@
 <body>
   <div class="grain"></div>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Aktify home">
-      <span class="brand-mark">A</span>
-      <span><strong>Aktify.ru</strong><small>Подарки для сильного ума</small></span>
-    </a>
+ <a href="index.html" class="logo-link">
+  <img src="img/logo.png" alt="Логотип" class="logo-img" />
+  
+  <div class="logo-text">
+    <b>Aktify.ru</b>
+    <br>
+    <span>Подарочные головоломки "Мудрец механики"</span>
+  </div>
+</a>
+    
     <button class="menu-btn" aria-label="Открыть меню">☰</button>
     <nav class="nav">
       <a href="#products">Каталог</a>
@@ -40,16 +46,18 @@
           <span>🧠 Для любителей сложных задач</span>
           <span>🎁 Готово к вручению</span>
           <span>⚙️ Механика без банальности</span>
+		  <span>⚙️ Безопасная оплата OZON PAY</span>
+		  <span>⚙️ Быстрая доставка со склада Озон</span>
         </div>
       </div>
-      <div class="hero-card">
+     <div class="hero-card">
         <div class="challenge-label">Уровень: непросто</div>
-        <div class="bottle">
-          <div class="neck"></div>
-          <div class="glass">
-            <div class="wood"></div><div class="nut nut-a"></div><div class="nut nut-b"></div><div class="ring"></div>
-          </div>
+        
+        <!-- [НОВОЕ] Контейнер для адаптивной картинки 3:4 -->
+        <div class="hero-img-wrap">
+          <img src="img/rich1_3.png" alt="Механическая головоломка" class="hero-main-img" />
         </div>
+        
         <div class="floating price">от 990 ₽</div>
         <div class="floating badge">Подарочная коробка</div>
       </div>
@@ -70,34 +78,50 @@
       <div class="product-grid">
 <!-- ТОВАР 1 -->
 <article class="product-card" data-product="0">
-  <img src="assets/products/nuts-1.jpg" alt="Крутить гайки" class="product-grid-img">
+<div class="card-image-wrap">
+    <span class="catalog-badge badge-hit">Для инженеров и мастеров</span>
+	    <!-- Ваша оригинальная картинка из каталога -->
+    <img src="img/slide1_1.png" alt="Головоломка Мудрец механики" />
+  </div>
+  
   <h3>Крутить гайки в стесненных условиях</h3>
   <p>Подарок для человека, который любит разбираться...</p>
   <div class="card-footer">
     <strong>Загрузка...</strong> <!-- Просто strong, без классов -->
-    <button class="btn ghost small" type="button">Хочу подарить</button>
+  <!--  <button class="btn ghost small" type="button">Хочу подарить</button>-->
+	<div class="card-bottom"><button>Хочу подарить</button></div>
   </div>
 </article>
 
 <!-- ТОВАР 2 -->
 <article class="product-card" data-product="1">
-  <img src="assets/products/ring-1.jpg" alt="Авторская задача" class="product-grid-img">
+<div class="card-image-wrap">
+    <span class="catalog-badge badge-hit">Хит для любителей логики</span>
+	    <!-- Ваша оригинальная картинка из каталога -->
+    <img src="img/slide2_1.png" alt="Надеть кольцо" />
+  </div>
   <h3>Авторская задача: надеть кольцо</h3>
   <p>Лучший выбор для любителей логики...</p>
   <div class="card-footer">
     <strong>Загрузка...</strong>
-    <button class="btn ghost small" type="button">Хочу подарить</button>
+    <!--<button class="btn ghost small" type="button">Хочу подарить</button>-->
+	<div class="card-bottom"><button>Хочу подарить</button></div>
   </div>
 </article>
 
 <!-- ТОВАР 3 -->
 <article class="product-card" data-product="2">
-  <img src="assets/products/envelope-1.jpg" alt="Интеллектуальный конверт" class="product-grid-img">
+  <div class="card-image-wrap">
+    <span class="catalog-badge badge-hit">Лучше обычного конверта</span>
+	    <!-- Ваша оригинальная картинка из каталога -->
+    <img src="img/slide3_1.png" alt="Головоломка Мудрец механики" />
+  </div>
   <h3>Интеллектуальный конверт для денег</h3>
   <p>Когда деньги хочется подарить красиво...</p>
   <div class="card-footer">
     <strong>Загрузка...</strong>
-    <button class="btn ghost small" type="button">Хочу подарить</button>
+   <!-- <button class="btn ghost small" type="button">Хочу подарить</button>-->
+   <div class="card-bottom"><button>Хочу подарить</button></div>
   </div>
 </article>
 
@@ -131,6 +155,50 @@
       <h2>Не дарите очередную вещь. Подарите момент победы.</h2>
       <p>Сложная головоломка создает эмоцию до того, как человек получает сам подарок. Он пробует, ошибается, смеется, просит подсказку — и в итоге помнит не сумму, а процесс.</p>
       <p>Кнопки покупки можно связать с вашим Ozon, оплатой или формой заказа. Сейчас сайт уже готов как стильный лендинг: замените ссылки, фото и контакты — и можно запускать.</p>
+    </section>
+	<section class="seo-panel" id="delivery">
+ <!--     <section class="reviews-section" id="reviews">-->
+  <div class="reviews-container">
+    <h2 class="section-title">Отзывы наших покупателей</h2>
+    <p class="section-subtitle">     Собрано с нашей официальной витрины на Ozon</p>
+
+    <div class="reviews-grid">
+      
+      <!-- Отзыв 1 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-user">
+            <span class="user-avatar">А</span>
+            <div>
+              <h4 class="user-name">Алексей К.</h4>
+              <span class="ozon-verified">✓ Проверенный покупатель Ozon</span>
+            </div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <p class="review-text">«Головоломка просто пушка! Покупал другу на день рождения, внутрь спрятал купюру. Он два часа крутил эти гайки, вся компания подсказывала. Качество дерева и металла отличное, выглядит очень солидно как подарок».</p>
+        <span class="review-date">14 мая 2026</span>
+      </div>
+
+      <!-- Отзыв 2 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-user">
+            <span class="user-avatar" style="background: #34c759;">М</span>
+            <div>
+              <h4 class="user-name">Мария В.</h4>
+              <span class="ozon-verified">✓ Проверенный покупатель Ozon</span>
+            </div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <p class="review-text">«Брала мужу, он любит такие штуки. Задача оказалась действительно сложной, за пять минут не решить. Упаковка отличная, сразу можно дарить, ничего дополнительно придумывать не нужно. Рекомендую!»</p>
+        <span class="review-date">28 июня 2026</span>
+      </div>
+
+    </div> <!-- Конец reviews-grid -->
+  </div>
+<!--</section>-->
     </section>
   </main>
 
@@ -184,6 +252,55 @@
 
   </dialog>
 
+  <!-- Кнопки для размещения в подвале (footer) или меню сайта -->
+<div class="feedback-buttons">
+  <button onclick="openFeedbackModal('question')">Задать вопрос</button>
+  <button onclick="openFeedbackModal('review')">Оставить отзыв</button>
+  <button onclick="openFeedbackModal('return')">Заявка на возврат</button>
+</div>
+
+<!-- Модальное окно обратной связи -->
+<dialog id="feedback-modal" class="modal-dialog" style="display:none; justify-content:center; align-items:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.6); z-index:1000; border:none;">
+  <div style="background:rgba(255,246,230,.92); padding:30px; border-radius:12px; width:100%; max-width:400px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.5); color:#fff; font-family:sans-serif;">
+    <button onclick="closeFeedbackModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#aaa; font-size:24px; cursor:pointer;">&times;</button>
+    
+    <h3 id="feedback-title" style="margin-top:0; font-size:20px; color:#8f4b08; text-transform:uppercase;">Обратная связь</h3>
+    
+    <form id="feedback-form" onsubmit="sendFeedback(event)" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+      <!-- Скрытое поле, чтобы скрипт знал тип заявки -->
+      <input type="hidden" id="feedback-type" name="type" value="question" />
+<div style="display: none !important; visibility: hidden !important;" aria-hidden="true">
+  <input type="text" name="email_confirm" id="feedback-honeypot" autocomplete="off" tabindex="-1" />
+</div>
+      <div>
+        <label style="display:block; font-size:12px; color:#aaa; margin-bottom:5px;">Ваше имя</label>
+        <input type="text" name="name" required style="width:100%; padding:10px; background:#ffffff; border:1px solid #444; border-radius:6px; color:#2a2a2a;" />
+      </div>
+
+      <div>
+        <label style="display:block; font-size:12px; color:#aaa; margin-bottom:5px;">Телефон или Telegram</label>
+        <input type="text" name="contact" required style="width:100%; padding:10px; background:#ffffff; border:1px solid #444; border-radius:6px; color:#2a2a2a;" placeholder="+7 (999) 000-00-00 или @username" />
+      </div>
+
+      <!-- Поле номера заказа (показывается только при возврате) -->
+      <div id="order-number-block" style="display:none;">
+        <label style="display:block; font-size:12px; color:#aaa; margin-bottom:5px;">Номер заказа</label>
+        <input type="text" name="order_number" style="width:100%; padding:10px; background:#ffffff; border:1px solid #444; border-radius:6px; color:#2a2a2a;" placeholder="AKTIFY-171983..." />
+      </div>
+
+      <div>
+        <label id="message-label" style="display:block; font-size:12px; color:#aaa; margin-bottom:5px;">Ваш вопрос</label>
+        <textarea name="message" required rows="4" style="width:100%; padding:10px; background:#ffffff; border:1px solid #444; border-radius:6px; color:#2a2a2a; resize:none;"></textarea>
+      </div>
+
+      <button type="submit" id="feedback-submit-btn" style="background:#f3b653; color:#000; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer; text-transform:uppercase; margin-top:10px;">Отправить</button>
+    </form>
+  </div>
+</dialog>
+ <!-- Загружаем библиотеку прямо из папки вашего сайта -->
+  <script src="assets/email.min.js"></script>
+  
+  <!-- Ваш файл логики (идет строго вторым) -->
   <script src="assets/app.js"></script>
 </body>
 </html>
