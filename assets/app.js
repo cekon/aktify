@@ -5,38 +5,50 @@ const productsConfig = [
   {
     id: 'product1',
     ozon_sku: '1695005157', // Замените на ваш реальный SKU с Озона
-    title: 'Крутить гайки в стесненных условиях',
-	title2: 'Крутить гайки в',
+    title: '',
+	title2: 'Задача: Вынуть все предметы из бутылки, а затем вернуть все в исходное состояние.',
     price: 1201, 
     priceText: '1201 ₽',
-    desc: 'Подарок для человека, который любит разбираться, пробовать разные углы и не сдается после первой попытки. Задача кажется простой, но быстро превращается в настоящий механический вызов.',
+    desc: '',
+	 desc2: 'Собрать будет труднее чем разобрать. Видеоинструкция по решению головоломки прилагается.',
     images: [
-      "img/rich1_1.png",
-      "assets/products/nuts-2.jpg",
+      "img/slide1_2.png",
+	  "img/slide1_3.png",
+	  "img/rich1_1.png",
+     // "img/rich1_2.png",
+	  "img/rich1_3.png",
       "img/video1.mp4"
     ]
   },
   {
     id: 'product2',
     ozon_sku: '1964500027', // Замените на ваш реальный SKU с Озона
-    title: 'Авторская задача: надеть кольцо',
+    title: '',
+	title2: 'Задача: вынуть кольцо из бутылки, затем установить обратно.',
     price: 990,
     priceText: '990 ₽',
-    desc: 'Лучший выбор для любителей логики и вау-эффекта. Получатель видит кольцо и бутылку, понимает цель — но решение придется заслужить вниманием, терпением и нестандартным мышлением.',
+    desc: '',
+	 desc2: 'Лучший выбор для любителей логики и вау-эффекта. Получатель видит кольцо и бутылку, понимает цель — но решение придется заслужить вниманием, терпением и нестандартным мышлением. Видеоинструкция решения прилагается',
     images: [
-      "assets/products/ring-1.jpg",
-      "assets/products/ring-2.jpg"
+     "img/slide2_2.png",
+	// "img/rich2_1.png",
+      "img/rich2_2.png",
+	  "img/video2.mp4"
     ]
   },
   {
     id: 'product3',
     ozon_sku: '2138645678', // Замените на ваш реальный SKU с Озона
-    title: 'Интеллектуальный конверт',
+    title: '',
+	title2: 'Надоело дарить деньги в банальных бумажных конвертах?',
     price: 1000,
     priceText: '1000 ₽',
-    desc: 'Когда деньги хочется подарить красиво, а не просто в конверте. Спрячьте вложение внутри: сначала человек решает задачу, потом получает награду.',
+    desc: '',
+	desc2: 'Превратите подарок в увлекательное испытание. Именинник получит заслуженную награду только тогда, когда проявит логику, пространственное мышление и терпение.',
     images: [
-      "assets/products/envelope-1.jpg"
+       "img/rich3_1.png",
+      "img/rich3_2.png",
+	  "img/video3.mp4"
     ]
   }
 ];
@@ -85,7 +97,7 @@ function openGallery(p) {
   const modalTitle = modal.querySelector('.modal-copy h2');
   const modalDesc = modal.querySelector('.modal-desc');
   if (modalTitle) modalTitle.textContent = p.title2;
-  if (modalDesc) modalDesc.textContent = p.desc;
+  if (modalDesc) modalDesc.textContent = p.desc2;
 
   // Наполняем скрытые теги внутри блока .gallery-caption (для совместимости)
   const galleryTitle = modal.querySelector('.gallery-title');
@@ -430,7 +442,7 @@ function sendFeedback(event) {
     emailjs.init(PUBLIC_KEY);
     emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
       .then(function() {
-        alert('Спасибо! Ваш запрос успешно отправлен. Письмо уже на вашей Яндекс.Почте.');
+        alert('Спасибо! Ваш запрос успешно отправлен.');
         closeFeedbackModal();
       })
       .catch(function(error) {
