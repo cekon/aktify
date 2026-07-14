@@ -207,96 +207,132 @@ function openGallery(p) {
 
   // СВЯЗЫВАЕМ С ОРИГИНАЛЬНЫМИ КЛАССАМИ ГАЛЕРЕИ ИЗ ВАШЕГО PDF
     // === НАЧАЛО ИСПРАВЛЕННОЙ ВСТАВКИ ДЛЯ ВИДЕО НА ВЕСЬ ЭКРАН ===
+    // =========================================================================
+    // НАЧАЛО НОВОЙ ВСТАВКИ (Исправленная версия без синтаксических ошибок)
+    // =========================================================================
     const thumbsBox = modal.querySelector('.gallery-thumbs');
     const mainImg = modal.querySelector('.gallery-img');
     const videoEl = modal.querySelector('.gallery-video');
+    const galleryStage = modal.querySelector('.gallery-stage');
 
-    // Функция переключения экрана (Картинка или Видео)
-    function changeMainMedia(src) {
-      if (src.endsWith('.mp4')) {
-        // 1. ЕСЛИ ЭТО ВИДЕО: полностью изолируем и прячем картинку
-        if (mainImg) {
-          mainImg.style.setProperty('display', 'none', 'important');
+    let currentMediaIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function changeMainMedia(index) {
+        if (index < 0 || index >= mediaList.length) return;
+        currentMediaIndex = index;
+        const src = mediaList[index];
+
+        if (thumbsBox) {
+            thumbsBox.querySelectorAll('.thumb').forEach((el, idx) => {
+                if (idx === index) el.classList.add('active');
+                else el.classList.remove('active');
+            });
         }
-        
-        if (videoEl) {
-          videoEl.style.setProperty('display', 'block', 'important');
-          videoEl.src = src;
-          videoEl.controls = true; // Панель управления
-          videoEl.autoplay = true; // Автозапуск
-          videoEl.muted = true;    // Требование браузеров для автоплея
-          
-          // Растягиваем плеер на 100% ширины и высоты родительского контейнера
-          videoEl.style.width = '100%';
-          videoEl.style.height = '100%';
-          videoEl.style.minHeight = '350px'; // Минимальная высота, чтобы не сжималось
-          videoEl.style.maxHeight = '450px';
-          videoEl.style.objectFit = 'contain'; // Картинка не искажается и вписывается в рамки
-          videoEl.style.borderRadius = '8px';
+
+        if (src.endsWith('.mp4')) {
+            if (mainImg) mainImg.style.setProperty('display', 'none', 'important');
+            if (videoEl) {
+                videoEl.style.setProperty('display', 'block', 'important');
+                videoEl.src = src;
+                videoEl.controls = true;
+                videoEl.autoplay = true;
+                videoEl.muted = true;
+                videoEl.style.width = '100%';
+                videoEl.style.height = '100%';
+                videoEl.style.objectFit = 'contain';
+            }
+        } else {
+            if (videoEl) {
+                videoEl.pause();
+                videoEl.style.setProperty('display', 'none', 'important');
+            }
+            if (mainImg) {
+                mainImg.style.setProperty('display', 'block', 'important');
+                mainImg.style.opacity = '0.3';
+                setTimeout(() => {
+                    mainImg.src = src;
+                    mainImg.style.opacity = '1';
+                }, 100);
+            }
         }
-      } else {
-        // 2. ЕСЛИ ЭТО КАРТИНКА: останавливаем и полностью изолируем видео
-        if (videoEl) {
-          videoEl.pause();
-          videoEl.style.setProperty('display', 'none', 'important');
+    }
+
+    if (galleryStage) {
+        galleryStage.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches.screenX;
+        }, { passive: true });
+
+        galleryStage.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches.screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchStartX - touchEndX > swipeThreshold) {
+            if (currentMediaIndex < mediaList.length - 1) {
+                changeMainMedia(currentMediaIndex + 1); // Свайп влево — следующий слайд
+            }
+        } else if (touchEndX - touchStartX > swipeThreshold) {
+            if (currentMediaIndex > 0) {
+                changeMainMedia(currentMediaIndex - 1); // ИСПРАВЛЕНО: Свайп вправо — предыдущий слайд
+            }
         }
-        
-        if (mainImg) {
-          mainImg.style.setProperty('display', 'block', 'important');
-          mainImg.style.width = '100%';
-          mainImg.style.maxHeight = '450px';
-          mainImg.style.objectFit = 'contain';
-          
-          mainImg.style.opacity = '0.3';
-          setTimeout(() => {
-            mainImg.src = src;
-            mainImg.style.opacity = '1';
-          }, 100);
-        }
-      }
+    }
+
+    if (galleryStage && mainImg) {
+        galleryStage.onclick = (e) => {
+            if (mediaList[currentMediaIndex].endsWith('.mp4')) return;
+            e.stopPropagation();
+            galleryStage.classList.toggle('fullscreen');
+            if (galleryStage.classList.contains('fullscreen')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        };
     }
 
     if (thumbsBox && (mainImg || videoEl)) {
-      thumbsBox.innerHTML = ""; // Очищаем старые миниатюры
+        thumbsBox.innerHTML = ""; 
+        if (mediaList.length === 0) {
+            if (mainImg) {
+                mainImg.style.display = 'block';
+                mainImg.src = typeof getPlaceholderSvg === 'function' ? getPlaceholderSvg(p.title) : '';
+            }
+            if (videoEl) videoEl.style.display = 'none';
+        } else {
+            changeMainMedia(0);
+            
+            mediaList.forEach((src, index) => {
+                const thumbDiv = document.createElement('div');
+                thumbDiv.className = 'thumb';
+                if (index === 0) thumbDiv.classList.add('active');
+                
+                if (src.endsWith('.mp4')) {
+                    thumbDiv.innerHTML = `<div class="video-thumb-preview" style="background:#1a1a1a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;width:100%;height:100%;border-radius:4px;cursor:pointer;">Видео</div>`;
+                } else {
+                    const thumbImg = document.createElement('img');
+                    thumbImg.src = src;
+                    thumbImg.onerror = () => { 
+                        if (typeof getPlaceholderSvg === 'function') thumbImg.src = getPlaceholderSvg('Ошибка'); 
+                    };
+                    thumbDiv.appendChild(thumbImg);
+                }
 
-      if (mediaList.length === 0) {
-        if (mainImg) {
-          mainImg.style.display = 'block';
-          mainImg.src = getPlaceholderSvg(p.title);
+                thumbDiv.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    changeMainMedia(index);
+                });
+                thumbsBox.appendChild(thumbDiv);
+            });
         }
-        if (videoEl) videoEl.style.display = 'none';
-      } else {
-        // Запуск первого элемента из массива
-        changeMainMedia(mediaList[0]);
-
-        // Генерируем миниатюры
-        mediaList.forEach((src, index) => {
-          const thumbDiv = document.createElement('div');
-          thumbDiv.className = 'thumb';
-          if (index === 0) thumbDiv.classList.add('active');
-
-          if (src.endsWith('.mp4')) {
-            // Кнопка-превью для видео
-            thumbDiv.innerHTML = `<div class="video-thumb-preview" style="background:#1a1a1a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;width:100%;height:100%;border-radius:4px;cursor:pointer;">▶ Видео</div>`;
-          } else {
-            const thumbImg = document.createElement('img');
-            thumbImg.src = src;
-            thumbImg.onerror = () => { thumbImg.src = getPlaceholderSvg('Ошибка'); };
-            thumbDiv.appendChild(thumbImg);
-          }
-
-          // Переключение по клику
-          thumbDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-            thumbsBox.querySelectorAll('.thumb').forEach(el => el.classList.remove('active'));
-            thumbDiv.classList.add('active');
-            changeMainMedia(src);
-          });
-
-          thumbsBox.appendChild(thumbDiv);
-        });
-      }
     }
+    // =========================================================================
+    // КОНЕЦ НОВОЙ ВСТАВКИ
     // === КОНЕЦ ИСПРАВЛЕННОЙ ВСТАВКИ ДЛЯ ВИДЕО НА ВЕСЬ ЭКРАН ===
 
 
