@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://sitemaps.org">
+    <!-- Главная страница магазина -->
+    <url>
+        <loc>https://aktify.ru</loc>
+        <lastmod>2026-07-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+  </urlset>
