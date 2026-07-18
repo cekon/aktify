@@ -51,6 +51,7 @@ const productsConfig = [
 		"img/slide3_3.png",
        "img/rich3_1.png",
       "img/rich3_2.png",
+		"img/korobka.png",
 	  "img/video3.mp4"
     ]
   }
