@@ -121,6 +121,7 @@ function openGallery(p) {
         <button type="button" class="qty-btn" id="qty-plus">+</button>
       </div>
       <a class="btn primary" id="checkout-link" href="#">Купить с доставкой Ozon</a>
+	  <p> Нажимая кнопку вы соглашаетесть с условиями<a href="legal2.html" target="_blank" style="color: #005bff;"> оферты и политики конфиденциальности</a></p>
     `;
 
     const qtyInput = buyContainer.querySelector('#modal-qty');
