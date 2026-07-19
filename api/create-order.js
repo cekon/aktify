@@ -67,7 +67,7 @@ export default async function handler(req, res) {
     const ACCESS_KEY = process.env.OZON_ACCESS_KEY; 
     const SECRET_KEY = (process.env.OZON_SECRET_KEY || '').trim();
     
-    const API_URL = 'https://ozon.ru';
+    const API_URL = 'https://payapi.ozon.ru/v1/createOrder';
     const fiscalizationType = 'FISCAL_TYPE_SINGLE';
     const paymentAlgorithm = 'PAY_ALGO_SMS';
     const currencyCode = '643';
