@@ -1,0 +1,92 @@
+export default {
+  async fetch(request, env, ctx) {
+    // 1. Обработка CORS-предзапроса (OPTIONS)
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": "*", // В проде замените * на домен вашего сайта
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      });
+    }
+
+    // Разрешаем только POST запросы для создания платежа
+    if (request.method !== "POST") {
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+
+    try {
+      // 2. Получаем данные о заказе от вашего фронтенда
+      const { orderNumber, amount, userEmail } = await request.json();
+
+      // Читаем секретные ключи из переменных окружения Cloudflare (Задаются в панели или wrangler.toml)
+      const MERCHANT_ID = env.OZON_MERCHANT_ID;
+      const API_KEY = env.OZON_API_KEY;
+
+      const OZON_PAY_API_URL = 'https://ozon.ru';
+
+      // 3. Формируем тело запроса для Ozon Pay (фискализация по ФЗ-54)
+      const ozonPayload = {
+        merchant_id: MERCHANT_ID,
+        order_number: orderNumber,
+        amount: amount,
+        currency: 'RUB',
+        description: `Оплата заказа №${orderNumber}`,
+        success_url: 'https://myshop.ru', // Страница успеха на вашем сайте
+        fail_url: 'https://myshop.ru',       // Страница ошибки на вашем сайте
+        receipt: {
+          client: { email: userEmail },
+          items: [
+            {
+              name: 'Оплата товаров',
+              price: amount,
+              quantity: 1.00,
+              amount: amount,
+              vat: 'NONE', // Замените на вашу ставку, если платите НДС (например, VAT_20)
+              payment_method: 'FULL_PREPAYMENT',
+              payment_object: 'COMMODITY'
+            }
+          ]
+        }
+      };
+
+      // 4. Отправляем запрос в Ozon Pay через стандартный fetch
+      const response = await fetch(OZON_PAY_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Client-Id': MERCHANT_ID,
+          'Api-Key': API_KEY
+        },
+        body: JSON.stringify(ozonPayload)
+      });
+
+      const data = await response.json();
+
+      // 5. Возвращаем ответ фронтенду с заголовками CORS
+      const responseHeaders = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // В проде замените * на домен вашего сайта
+      };
+
+      if (response.ok && data.payment_url) {
+        return new Response(JSON.stringify({ success: true, paymentUrl: data.payment_url }), {
+          status: 200,
+          headers: responseHeaders
+        });
+      } else {
+        return new Response(JSON.stringify({ success: false, error: data.message || 'Ошибка Ozon Pay' }), {
+          status: 400,
+          headers: responseHeaders
+        });
+      }
+
+    } catch (error) {
+      return new Response(JSON.stringify({ success: false, error: error.message }), {
+        status: 500,
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      });
+    }
+  },
+};

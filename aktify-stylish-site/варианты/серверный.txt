@@ -1,0 +1,69 @@
+// server.js (используем встроенный в Node.js fetch)
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+app.use(express.json());
+app.use(cors()); // Разрешаем запросы от вашего фронтенда
+
+const OZON_PAY_API_URL = 'https://ozon.ru'; // URL платежного шлюза Ozon
+const MERCHANT_ID = 'ВАШ_MERCHANT_ID';
+const API_KEY = 'ВАШ_API_KEY';
+
+app.post('/api/create-payment', async (req, res) => {
+    try {
+        const { orderNumber, amount, userEmail } = req.body;
+
+        // Формируем тело запроса к Ozon Pay согласно ФЗ-54 (с чеком)
+        const ozonPayload = {
+            merchant_id: MERCHANT_ID,
+            order_number: orderNumber, // Уникальный ID заказа в вашей системе
+            amount: amount,            // Сумма в рублях (например, 1500.00)
+            currency: 'RUB',
+            description: `Оплата заказа №${orderNumber}`,
+            success_url: 'https://myshop.ru', // Куда вернуть при успехе
+            fail_url: 'https://myshop.ru',       // Куда вернуть при ошибке
+            
+            // Фискальные данные для чека (Озон сам отправит его в налоговую)
+            receipt: {
+                client: { email: userEmail },
+                items: [
+                    {
+                        name: 'Оплата товаров в интернет-магазине',
+                        price: amount,
+                        quantity: 1.00,
+                        amount: amount,
+                        vat: 'NONE', // Или ваша ставка НДС (VAT_20, VAT_10)
+                        payment_method: 'FULL_PREPAYMENT',
+                        payment_object: 'COMMODITY'
+                    }
+                ]
+            }
+        };
+
+        // Делаем защищенный POST-запрос к Ozon Pay
+        const response = await fetch(OZON_PAY_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Client-Id': MERCHANT_ID,
+                'Api-Key': API_KEY
+            },
+            body: JSON.stringify(ozonPayload)
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.payment_url) {
+            // Возвращаем клиенту полученную платежную ссылку
+            res.json({ success: true, paymentUrl: data.payment_url });
+        } else {
+            res.status(400).json({ success: false, error: data.message || 'Ошибка Ozon Pay' });
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.listen(3000, () => console.log('Сервер запущен на порту 3000'));

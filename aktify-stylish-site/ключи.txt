@@ -1,0 +1,39 @@
+ID токена:
+dee1070b-c0bd-430a-b7d0-b87bc6bfe396
+
+Секретный ключ:
+0Ttdv5W2qn7n4E5rsFDWVKbEQKkn8viv
+
+Секретный ключ для нотификаций:
+IDrvxfgxpfLkrZIgQEgGOcKOgjNsOz10
+
+_________________Самописные_____________________Aktify
+
+ID токена:
+1b34c793-f3ae-4721-82ed-0581a0abcf6d
+
+Секретный ключ:
+ZCbtytGxpsV5j6EZvjmbzPgeZVU40if3
+
+Секретный ключ для нотификаций:
+ToMgHigFE9zX0h2HWxlJ6E6RHMgpVRLV
+
+
+_Телеграм__
+API
+8947001506:AAGEsUM1H0ZEYnr3kZ9RA-S9gtmaFEZm7-Y
+
+Id: 5199742914
+
+
+Resend
+re_ih5pYyfK_3hNbbSZWhJTGL1yd39zRhPDf
+
+EmailJS
+пароль для яндекс
+uchxodadclgemxjj
+service_v4go7jz
+публичный ключ
+EuBcutagloFacA2Iy
+id шаблона
+template_1hkdslb

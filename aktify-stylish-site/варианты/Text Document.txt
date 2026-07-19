@@ -1,0 +1,110 @@
+ыполните следующие 2 шага:Шаг 1. Обновите разметку в index.htmlНайдите в вашем файле index.html разметку модального окна <dialog id="productModal"> и замените её внутреннюю структуру на этот правильный вариант. Обратите внимание: мы добавили пустой контейнер class="gallery-thumbs", куда скрипт будет вставлять миниатюры [docs.ozon.ru]:html<dialog id="productModal" class="modal">
+  <div class="modal-box">
+    <button class="close" type="button" aria-label="Закрыть окно">✕</button>
+    
+    <!-- ИСПРАВЛЕННЫЙ КОНТЕЙНЕР ГАЛЕРЕИ -->
+    <div class="modal-art-container">
+      <!-- Сюда JavaScript вставит вертикальный столбик миниатюр -->
+      <div class="gallery-thumbs"></div>
+      
+      <!-- Сцена для большой картинки -->
+      <div class="gallery-stage">
+        <img id="mainImage" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Изображение товара">
+      </div>
+    </div>
+    
+    <div class="modal-copy">
+      <h2>Название товара</h2>
+      <p class="modal-desc">Описание товара...</p>
+      <div class="buy-row" id="modal-buy-container"></div>
+    </div>
+  </div>
+</dialog>
+Verwende Code mit Vorsicht.Шаг 2. Замените CSS-стили в конце assets/styles.cssУдалите прошлые добавленные стили для галереи и вставьте этот обновленный, полностью изолированный CSS-код в самый конец вашего файла assets/styles.css. Он принудительно задает размеры левому столбику и включает его отображение строго внутри модального окна, не ломая остальную страницу:css/* ==========================================
+   ИЗОЛИРОВАННЫЕ СТИЛИ ВЕРТИКАЛЬНОЙ ГАЛЕРЕИ ДЛЯ MODAL
+   ========================================== */
+
+/* Контейнер, объединяющий миниатюры и главное фото */
+#productModal .modal-art-container {
+  display: flex !important;
+  gap: 16px !important;
+  background: #fffcf5 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-bottom: 20px;
+}
+
+/* Левый столбик для миниатюр */
+#productModal .gallery-thumbs {
+  display: flex !important;
+  flex-direction: column !important; /* Строго вертикально */
+  gap: 10px !important;
+  width: 56px !important; /* Фиксированная ширина столбика */
+  min-width: 56px !important;
+  max-height: 280px !important;
+  overflow-y: auto !important; /* Если картинок много, появится аккуратный скролл */
+}
+
+/* Стили самой миниатюры (рамка и фон) */
+#productModal .gallery-thumb {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  border: 2px solid var(--line, rgba(23,17,10,0.12)) !important; /* Базовая серая рамка */
+  cursor: pointer !important;
+  background: #fff !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  box-sizing: border-box !important;
+}
+
+#productModal .gallery-thumb img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Активная миниатюра с золотой рамкой Aktify */
+#productModal .gallery-thumb.active {
+  border-color: var(--gold, #c97917) !important;
+  box-shadow: 0 0 0 2px rgba(201,121,23,0.15) !important;
+}
+
+/* Правая сцена для большой картинки */
+#productModal .gallery-stage {
+  flex: 1 !important;
+  height: 280px !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--line, rgba(23,17,10,0.12)) !important;
+  background: #fff !important;
+  position: relative !important;
+}
+
+#productModal #mainImage {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: opacity 0.15s ease !important;
+  display: block !important;
+}
+
+/* Адаптивность для мобильных телефонов */
+@media (max-width: 600px) {
+  #productModal .modal-art-container {
+    flex-direction: column-reverse !important; /* На мобилках миниатюры уходят вниз под фото */
+  }
+  #productModal .gallery-thumbs {
+    flex-direction: row !important; /* Становятся горизонтальной лентой */
+    width: 100% !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+  }
+  #productModal .gallery-stage {
+    height: 220px !important;
+  }
+}
+Verwende Code mit Vorsicht.Сохраните оба файла и принудительно обновите страницу в браузере с помощью клавиш Ctrl + F5 (или Cmd + Shift + R на Mac), чтобы очистить память от старых стилей.Теперь браузер получит жесткие указания по размерам, и миниатюры со своими рамками гарантированно выстроятся красивым столбиком слева от основного фото. Напишите, появились ли теперь миниатюры?

@@ -1,0 +1,3 @@
+для подписи
+
+accessKey​expiresAt​extId​fiscalizationType​paymentAlgorithm​amount.currencyCode​amount.value​secretKey

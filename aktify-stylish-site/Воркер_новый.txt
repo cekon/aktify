@@ -1,0 +1,112 @@
+/* jshint esversion: 8 */
+
+export default {
+  async fetch(request, env, ctx) {
+    
+    async function sha256(message) {
+      const data = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const corsHeaders = {
+  //    "Access-Control-Allow-Origin": "https://aktify.ru", // Домен вашего сайта
+"Access-Control-Allow-Origin": "*", // Домен вашего сайта
+
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
+
+    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+    if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405, headers: corsHeaders });
+
+    try {
+      const clientData = await request.json();
+      const orderId = clientData.orderId;
+      const itemSku = clientData.sku;
+      const itemQty = parseInt(clientData.quantity) || 1;
+
+      // ЗАЩИЩЕННЫЙ КАТАЛОГ С ЦЕНАМИ ИЗ ВАШЕГО APP.JS
+      const productsCatalog = {
+        "1695005157": {
+          name: "Головоломка Мудрец механики. Подарок мужчине. Классическая задача - крутить гайки в стесненных условиях",
+          price: 1201
+        },
+        "1964500027": {
+          name: "Авторская головоломка. Мудрец механики. Задача: надеть кольцо",
+          price: 990
+        },
+        "2138645678": {
+          name: "Головоломка Мудрец Механики. Оригинальный подарок мужчине Задача на логику и смекалку",
+          price: 1000
+        }
+      };
+
+      const product = productsCatalog[itemSku];
+      if (!product) {
+        return new Response(JSON.stringify({ error: "Товар не найден в каталоге воркера" }), { status: 400, headers: corsHeaders });
+      }
+
+      // Математический расчет стоимости на стороне сервера (Защита от взлома цен)
+      const totalAmountValue = String(product.price * itemQty * 100); 
+      const singlePriceValue = String(product.price * 100);
+// Создаем объект даты и сдвигаем время вперед на 20 минут
+    const date = new Date();
+    date.setMinutes(date.getMinutes() + 20); 
+// Форматируем в RFC 3339 (например: "2026-07-06T12:34:56.789Z")
+      const expiresAt = date.toISOString(); 
+      const ACCESS_KEY = env.OZON_ACCESS_KEY; 
+      const SECRET_KEY = (env.OZON_SECRET_KEY).trim();
+      const API_URL = 'https://payapi.ozon.ru/v1/createOrder';
+      const fiscalizationType = 'FISCAL_TYPE_SINGLE';
+      const paymentAlgorithm = 'PAY_ALGO_SMS';
+      const currencyCode = '643';
+
+      const fingerprint = `${ACCESS_KEY}${expiresAt}${orderId}${fiscalizationType}${paymentAlgorithm}${currencyCode}${totalAmountValue}${SECRET_KEY}`; 
+      const requestSign = await sha256(fingerprint);
+
+      const ozonRequestBody = {
+        "accessKey": ACCESS_KEY,
+        "amount": { "currencyCode": currencyCode, "value": totalAmountValue },
+        "deliverySettings": { "isEnabled": true },
+        "enableFiscalization": true,
+        "expiresAt": expiresAt,
+        "extId": orderId,
+        "failUrl": "https://aktify.ru/error.html",
+     //   "fiscalizationPhone": "79824552425", 
+        "fiscalizationType": fiscalizationType,
+        "items": [
+          {
+            "extId": orderId,
+            "name": product.name,
+            "price": { "currencyCode": currencyCode, "value": singlePriceValue },
+            "quantity": itemQty,
+            "type": "TYPE_PRODUCT",
+            "sku": itemSku,
+            "vat": "VAT_NONE" 
+          }
+        ],
+        "mode": "MODE_FULL",
+        "paymentAlgorithm": paymentAlgorithm,
+        "requestSign": requestSign, 
+        "successUrl": "https://aktify.ru/success.html"
+      };
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ozonRequestBody)
+      });
+
+      const data = await response.json();
+     return new Response(JSON.stringify(data), {
+  status: 200,
+  headers: { ...corsHeaders, "Content-Type": "application/json" }
+});
+
+    } catch (error) {
+      return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: corsHeaders });
+    }
+  }
+};

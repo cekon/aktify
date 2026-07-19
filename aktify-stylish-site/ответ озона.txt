@@ -1,0 +1,58 @@
+{
+  "order": {
+    "id": "019f3081-8b60-7526-ae3d-4848c39ac7e9",
+    "number": "8",
+    "extId": "4037",
+    "payLink": "https://checkout.ozon.ru/order/019f3081-8b60-7526-ae3d-4848c39ac7e9",
+    "remainingAmount": {
+      "currencyCode": "643",
+      "value": "84000"
+    },
+    "status": "STATUS_PAYMENT_PENDING",
+    "paymentAlgorithm": "PAY_ALGO_SMS",
+    "fiscalizationType": "FISCAL_TYPE_SINGLE",
+    "items": [
+      {
+        "extId": "MM-B1",
+        "id": "019f17cb-cb57-756d-8c3d-dbd10a2b950a",
+        "name": "Головоломка Мудрец механики. Подарок мужчине. Классическая задача - крутить гайки в стесненных условиях",
+        "quantity": 1,
+        "needMark": false,
+        "unitType": "UNIT_PIECE",
+        "type": "TYPE_PRODUCT",
+        "vat": "VAT_NONE",
+        "price": {
+          "currencyCode": "643",
+          "value": "84000"
+        },
+        "attributes": {},
+        "positions": [
+          {
+            "id": "1",
+            "price": {
+              "currencyCode": "643",
+              "value": "84000"
+            },
+            "refundType": "TYPE_UNSPECIFIED",
+            "remainingAmount": {
+              "currencyCode": "643",
+              "value": "84000"
+            },
+            "markIsMissing": false
+          }
+        ],
+        "sku": "1695005157"
+      }
+    ],
+    "mode": "MODE_FULL",
+    "isTestMode": true,
+    "deliverySettings": {
+      "isEnabled": true
+    }
+  },
+  "extData": {
+    "property1": "string",
+    "property2": "string"
+  },
+  "requestId": "84ca98e57728a805"
+}

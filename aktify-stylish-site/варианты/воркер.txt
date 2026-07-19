@@ -1,0 +1,108 @@
+// Функция для генерации HMAC-SHA256 подписи с использованием Web Crypto API
+async function generateHmacSha256(secretKey, textToSign, outputFormat = "hex") {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(secretKey);
+  const messageData = encoder.encode(textToSign);
+
+  // Импортируем секретный ключ в криптографический объект
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  // Вычисляем подпись (возвращает ArrayBuffer)
+  const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, messageData);
+
+  // Форматируем результат
+  if (outputFormat === "base64") {
+    // Если Ozon требует подпись в формате Base64
+    return btoa(String.fromCharCode(...new Uint8Array(signatureBuffer)));
+  } else {
+    // Если Ozon требует подпись в формате Hex (шестнадцатеричная строка) — по умолчанию
+    return Array.from(new Uint8Array(signatureBuffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+}
+
+export default {
+  async fetch(request, env, ctx) {
+    const allowedOrigin = "https://yourfrontend.com"; // Домен вашего фронтенда
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": allowedOrigin,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    if (request.method !== "POST") {
+      return new Response("Method Not Allowed", { status: 405, headers: corsHeaders });
+    }
+
+    try {
+      // 1. Читаем данные от пользователя
+      const clientData = await request.json();
+
+      // 2. Формируем тело запроса к Ozon Pay (сверьте поля с вашей документацией)
+      const ozonRequestBody = {
+        order_number: clientData.orderId,
+        amount: clientData.amount,
+        currency: "RUB",
+        description: `Оплата заказа №${clientData.orderId}`,
+        success_url: clientData.successUrl || "https://yourfrontend.com",
+        fail_url: clientData.failUrl || "https://yourfrontend.com"
+      };
+
+      const bodyString = JSON.stringify(ozonRequestBody);
+      const apiPath = "/v1/payment/create"; // Путь эндпоинта
+      
+      // 3. Собираем строку для подписи (ВНИМАНИЕ: Измените порядок полей по вашей ТД!)
+      // Ниже классический пример: PATH + JSON-тело
+      const stringToSign = `${apiPath}\n${bodyString}`;
+
+      // 4. Динамически генерируем подпись
+      // Формат "hex" или "base64" укажите в зависимости от требований Ozon
+      const signature = await generateHmacSha256(env.OZON_PAY_SECRET_KEY, stringToSign, "hex");
+
+      // 5. Отправляем запрос на шлюз Ozon Pay
+      const ozonResponse = await fetch(`https://api-pay.ozon.ru${apiPath}`, { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Access-Key": env.OZON_PAY_ACCESS_KEY,
+          // Передаем сгенерированную подпись в указанном Ozon заголовке (например, X-Signature или Client-Signature)
+          "X-Signature": signature 
+        },
+        body: bodyString
+      });
+
+      if (!ozonResponse.ok) {
+        const errorText = await ozonResponse.text();
+        return new Response(JSON.stringify({ error: "Ozon Pay Error", details: errorText }), {
+          status: ozonResponse.status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
+      const ozonData = await ozonResponse.json();
+
+      // 6. Возвращаем платежную ссылку фронтенду
+      return new Response(JSON.stringify({ paymentLink: ozonData.payment_link }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+
+    } catch (error) {
+      return new Response(JSON.stringify({ error: "Worker Internal Error", message: error.message }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+  },
+};

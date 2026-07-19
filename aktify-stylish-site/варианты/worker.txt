@@ -1,0 +1,87 @@
+export default {
+  async fetch(request, env, ctx) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
+
+    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+    try {
+      // 🛑 ВСТАВЬТЕ ВАШИ ЖЕСТКИЕ КЛЮЧИ СЮДА ДЛЯ НАГЛЯДНОСТИ ТЕСТА:
+      const CLIENT_ID = "1b34c793-f3ae-4721-82ed-0581a0abcf6d";
+      const API_KEY   = "ZCbtytGxpsV5j6EZvjmbzPgeZVU40if3";
+
+      // Базовый payload создания ссылки (Универсальный Direct API без логистики)
+      const ozonPayload = {
+        amount: 120100, // Сумма в копейках (1201 руб.)
+        currency: "RUB",
+        orderNumber: `ORDER-${Date.now()}`,
+        description: "Оплата заказа на сайте",
+        returnUrl: "https://github.io",
+        failUrl: "https://github.io"
+      };
+
+      const bodyStr = JSON.stringify(ozonPayload);
+      const timestamp = Math.floor(Date.now() / 1000).toString();
+      
+      // ТОЧНЫЙ ПУТЬ МЕТОДА ИЗ ДОКУМЕНТАЦИИ ФИНАНСОВОГО API
+      const apiPath = "/api/v1/finance/b2c/payment/create";
+
+      // Сборка строки подписи по канонам документации Ozon: Метод + Путь + Время + Тело
+      const stringToSign = `POST\n${apiPath}\n${timestamp}\n${bodyStr}`;
+
+      // Вычисление криптографического HMAC-SHA256 подписи
+      const encoder = new TextEncoder();
+      const cryptoKey = await crypto.subtle.importKey(
+        "raw", encoder.encode(API_KEY), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+      );
+      const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, encoder.encode(stringToSign));
+      const signatureHex = Array.from(new Uint8Array(signatureBuffer))
+        .map(b => b.toString(16).padStart(2, "0")).join("");
+
+      // ОФИЦИАЛЬНЫЙ АДРЕС ФИНАНСОВОГО API ИЗ ДОКУМЕНТАЦИИ ЭКВАЙРИНГА
+      const ozonResponse = await fetch(`https://ozon.ru${apiPath}`, {
+        method: "POST",
+        redirect: "manual", // Оставляем ручной контроль для отладки
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          
+          // Параметры авторизации по ТЗ Озона
+          "Client-Id": CLIENT_ID,
+          "X-Timestamp": timestamp,     
+          "X-Signature": signatureHex    
+        },
+        body: bodyStr
+      });
+
+      const responseText = await ozonResponse.text();
+
+      if (!ozonResponse.ok) {
+        return new Response(JSON.stringify({ 
+          status: `Шлюз Ozon отклонил запрос: ${ozonResponse.status}`, 
+          sent_to_url: ozonResponse.url,
+          generated_signature: signatureHex,
+          ozon_response_details: responseText 
+        }), {
+          status: ozonResponse.status, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" }
+        });
+      }
+
+      return new Response(JSON.stringify({
+        status: "Успешно!",
+        ozon_raw_response: JSON.parse(responseText)
+      }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" }
+      });
+
+    } catch (error) {
+      return new Response(JSON.stringify({ worker_internal_error: error.message }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" }
+      });
+    }
+  }
+};

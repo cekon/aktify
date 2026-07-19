@@ -1,0 +1,56 @@
+// 1. Подключаем официальный скрипт отправки почты в самом верху функции или файла
+// (Вставьте эту строчку на первую строку функции sendFeedback)
+const script = document.createElement('script');
+script.src = 'https://jsdelivr.net';
+document.head.appendChild(script);
+
+async function sendFeedback(event) {
+  event.preventDefault();
+  const form = event.target;
+  const submitBtn = document.getElementById('feedback-submit-btn');
+  const originalText = submitBtn.textContent;
+
+  submitBtn.textContent = "Отправка...";
+  submitBtn.style.pointerEvents = "none";
+
+  // Инициализируем почтовую библиотеку вашим Public Key
+  // ЗАМЕНИТЕ НА ВАШ КЛЮЧ ИЗ ШАГА 1:
+  emailjs.init("ВСТАВЬТЕ_СЮДА_YOUR_PUBLIC_KEY");
+
+  // Собираем данные из полей формы
+  const formData = new FormData(form);
+  
+  // Простая локальная защита от ботов (если поле-ловушка заполнено — сбрасываем)
+  if (formData.get('email_confirm') && formData.get('email_confirm').trim().length > 0) {
+    alert('Спасибо! Ваш запрос успешно отправлен.');
+    closeFeedbackModal();
+    submitBtn.textContent = originalText;
+    submitBtn.style.pointerEvents = "auto";
+    return;
+  }
+
+  // Параметры для вашего HTML-шаблона писем
+  const templateParams = {
+    type: formData.get('type') === 'return' ? 'Возврат' : formData.get('type') === 'review' ? 'Отзыв' : 'Вопрос',
+    name: formData.get('name'),
+    contact: formData.get('contact'),
+    orderNumber: formData.get('order_number') || 'Не указан',
+    message: formData.get('message')
+  };
+
+  // ОТПРАВЛЯЕМ НАПРЯМУЮ С САЙТА В ОБХОД ВОРКЕРА
+  // ЗАМЕНИТЕ НА ВАШИ ID СЕРВИСА И ШАБЛОНА:
+  emailjs.send("ВСТАВЬТЕ_YOUR_SERVICE_ID", "ВСТАВЬТЕ_YOUR_TEMPLATE_ID", templateParams)
+    .then(() => {
+      alert('Спасибо! Ваш запрос успешно отправлен. Письмо уже на вашей почте.');
+      closeFeedbackModal();
+    })
+    .catch((error) => {
+      alert('Ошибка отправки почты напрямую с сайта. Пожалуйста, проверьте контакты.');
+      console.error('EmailJS Error:', error);
+    })
+    .finally(() => {
+      submitBtn.textContent = originalText;
+      submitBtn.style.pointerEvents = "auto";
+    });
+}
