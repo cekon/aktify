@@ -1,0 +1,595 @@
+/* Общие переменные и базовые стили */
+:root {
+    --ozon-blue: #005bff;
+    --ozon-blue-hover: #004ad2;
+    --text-main: #1f2229;
+    --text-secondary: #808694;
+    --bg-gray: #f2f5f8;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Шапка сайта (Header) */
+header {
+    border-bottom: 1px solid #e4e8ee;
+    padding: 20px 0;
+    background-color: #fff;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: var(--ozon-blue);
+    color: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.brand-name {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Вступление (Hero section) */
+.hero {
+    padding: 50px 0 30px 0;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Каталог товаров (Главная страница) */
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 40px 0 80px 0;
+}
+
+@media (max-width: 900px) {
+    .catalog { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .catalog { grid-template-columns: 1fr; }
+}
+
+.product-card {
+    border: 1px solid #e4e8ee;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.product-img {
+    width: 100%;
+    aspect-ratio: 3 / 4; /* Адаптация под вертикальные фото 3:4 */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    height: 50px;
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.price-badge {
+    background-color: #f0f5ff;
+    color: var(--ozon-blue);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+/* Кнопки общего стиля */
+.btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 15px;
+    transition: background 0.2s;
+}
+
+.btn-buy {
+    background-color: var(--ozon-blue);
+    color: #fff;
+}
+
+.btn-buy:hover { background-color: var(--ozon-blue-hover); }
+
+.btn-more {
+    background-color: var(--bg-gray);
+    color: var(--text-main);
+}
+
+.btn-more:hover { background-color: #e4e8ee; }
+
+/* Страница товара (product.html) */
+.product-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+    .product-main { grid-template-columns: 1fr; gap: 20px; }
+}
+
+.gallery-container {
+    display: flex;
+    gap: 15px;
+}
+
+.thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.thumb {
+    width: 60px;
+    aspect-ratio: 3 / 4; /* Адаптация миниатюр 3:4 */
+    object-fit: cover;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.thumb:hover { border-color: var(--ozon-blue); }
+
+.main-image-box {
+    flex-grow: 1;
+}
+
+.main-image {
+    width: 100%;
+    max-height: 600px;
+    aspect-ratio: 3 / 4; /* Адаптация главного фото 3:4 */
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 12px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h1 {
+    font-size: 24px;
+    line-height: 32px;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+}
+
+.purchase-card {
+    border: 1px solid #e4e8ee;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.price-block {
+    margin-bottom: 20px;
+}
+
+.current-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.ozon-badge {
+    background-color: #f0f5ff;
+    color: var(--ozon-blue);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.btn-ozon-pay {
+    display: block;
+    background-color: var(--ozon-blue);
+    color: white;
+    text-align: center;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-ozon-pay:hover { background-color: var(--ozon-blue-hover); }
+
+.specs-short h3 { font-size: 18px; margin-bottom: 12px; }
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e4e8ee;
+    font-size: 14px;
+}
+
+.spec-name { color: var(--text-secondary); }
+.spec-value { font-weight: 500; }
+
+/* Рич-контент секция */
+/* Новые вертикальные стили для Рич-контента (Компьютер + Мобильные) */
+.rich-content {
+    border-top: 2px solid var(--bg-gray);
+    padding-top: 40px;
+    margin-top: 40px;
+}
+
+.rich-content h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    text-align: left; /* Заголовок "Описание товара" будет ровно по левому краю, как на Ozon */
+}
+
+.rich-banner-vertical {
+    background-color: var(--bg-gray);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column; /* Элементы ВСЕГДА идут сверху вниз */
+    align-items: center;    /* Центрируем картинку и текст по горизонтали */
+    text-align: center;     /* Центрируем сам текст внутри блока */
+    box-sizing: border-box;
+}
+
+.rich-banner-vertical img {
+    width: 100%;
+    max-width: 800px;       /* Ограничиваем максимальную ширину картинки на ПК, чтобы она не была гигантской */
+    aspect-ratio: 3 / 4;    /* Ваши фирменные вертикальные пропорции */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;    /* Отступ между картинкой и текстом под ней */
+}
+
+.rich-text-vertical {
+    max-width: 800px;       /* Чтобы текст на ПК не растягивался во всю ширину экрана и легко читался */
+}
+
+.rich-text-vertical h3 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--text-main);
+}
+
+.rich-text-vertical p {
+    color: #4e5361;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* Адаптив под смартфоны */
+@media (max-width: 768px) {
+    .rich-banner-vertical {
+        padding: 20px; /* Уменьшаем внутренние отступы серой плашки на мобильных */
+    }
+    .rich-banner-vertical img {
+        margin-bottom: 15px;
+    }
+}
+
+
+
+
+.rich-text h3 { font-size: 20px; margin-top: 0; }
+.rich-text p { color: #4e5361; line-height: 1.6; }
+
+/* Подвал (Footer) */
+footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid #e4e8ee;
+    margin-top: 40px;
+}
+
+footer p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+footer a {
+    color: var(--ozon-blue);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* Юридическая страница (legal.html) */
+.legal-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--ozon-blue);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+.back-link:hover { text-decoration: underline; }
+
+.update-date {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.legal-section {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #e4e8ee;
+    padding-bottom: 30px;
+}
+.legal-section:last-child { border-bottom: none; }
+
+.requisites {
+    background-color: var(--bg-gray);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Уведомление о Cookie */
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1f2229;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 9999;
+    width: calc(100% - 40px);
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+.cookie-banner p {
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.cookie-banner a {
+    color: var(--ozon-blue);
+    text-decoration: underline;
+}
+
+.cookie-banner button {
+    background-color: var(--ozon-blue);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.cookie-banner button:hover { background-color: var(--ozon-blue-hover); }
+
+@media (max-width: 600px) {
+    .cookie-banner {
+        flex-direction: column;
+        align-items: stretch;
+        bottom: 10px;
+        gap: 12px;
+        text-align: center;
+    }
+}
+
+/* Скрытый SEO текст */
+.seo-hidden-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+/* Стили для выбора количества */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.quantity-selector select {
+    padding: 8px 12px;
+    border: 1px solid #e4e8ee;
+    border-radius: 8px;
+    background-color: var(--bg-gray);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.quantity-selector select:focus {
+    border-color: var(--ozon-blue);
+}
+/* Стили для интеграции видео в галерею */
+.video-thumb {
+    background-color: #f2f5f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #e4e8ee;
+}
+
+.play-icon {
+    color: var(--ozon-blue);
+    font-size: 18px;
+    pointer-events: none; /* Чтобы клик проходил сквозь иконку на сам блок */
+}
+
+/* Главный плеер видео */
+.main-video {
+    width: 100%;
+    max-height: 600px;
+    aspect-ratio: 3 / 4; /* Строгие вертикальные пропорции 3:4 как у фото */
+    object-fit: cover;   /* Красиво заполняет блок без черных полос */
+    border-radius: 12px;
+    background-color: #000; /* Черный фон для плеера */
+}
+/* Стили для нового графического логотипа */
+.site-logo {
+    height: 50px;          /* Фиксированная аккуратная высота */
+    width: auto;           /* Ширина подстроится автоматически под пропорции картинки */
+    object-fit: contain;   /* Логотип аккуратно впишется без искажений */
+    border-radius: 6px;    /* Легкое скругление углов, если нужно */
+    display: block;
+}
+
+/* На мобильных экранах делаем логотип чуть компактнее */
+@media (max-width: 600px) {
+    .site-logo {
+        height: 32px;
+    }
+}
+/* Подсказка о доставке под кнопкой покупки */
+.ozon-delivery-note {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-secondary); /* Использует наш фирменный серый цвет */
+    text-align: center;
+    margin-top: 12px; /* Делает аккуратный отступ от нижней границы кнопки */
+    margin-bottom: 0;
+    font-weight: 500;
+}
+/* Стили для списка внутри Рич-контента */
+.rich-features-list {
+    list-style: none; /* Отключаем стандартные черные точки браузера */
+    padding: 0;
+    margin: 15px 0 0 0;
+}
+
+.rich-features-list li {
+    font-size: 15px;
+    color: #33363f;
+    line-height: 1.6;
+    margin-bottom: 12px; /* Расстояние между пунктами */
+    position: relative;
+    padding-left: 22px; /* Отступ слева под кастомный маркер */
+    text-align: left;   /* Выравнивание текста всегда по левому краю */
+}
+
+/* Создаем аккуратный фирменный синий маркер-точку */
+.rich-features-list li::before {
+    content: "•";
+    color: var(--ozon-blue); /* Используем наш синий цвет Ozon */
+    font-size: 22px;
+    position: absolute;
+    left: 4px;
+    top: -2px; /* Выравниваем точку строго по центру первой строки */
+    line-height: 1;
+}
+
+.rich-features-list li strong {
+    color: var(--text-main); /* Делаем акцентные первые слова чуть темнее и выразительнее */
+}
+header a:has(.site-logo) {
+    transition: opacity 0.2s ease;
+}
+
+header a:has(.site-logo):hover {
+    opacity: 0.8; /* Логотип станет чуть-чуть светлее при наведении */
+}
