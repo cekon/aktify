@@ -54,7 +54,7 @@ const productsConfig = [
 ];
 
 // ССЫЛКА НА ВАШ РАБОЧИЙ CLOUDFLARE WORKER
-const WORKER_URL = "https://ozon-pay.floral-base-69f9.workers.dev"; // Замените на вашу ссылку
+const WORKER_URL = "https://aktify.vercel.app/"; // Замените на вашу ссылку
 
 // ==========================================
 // 2. БАЗОВАЯ ЛОГИКА МЕНЮ И КУКИ
