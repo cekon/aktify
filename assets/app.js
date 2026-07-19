@@ -54,7 +54,7 @@ const productsConfig = [
 ];
 
 // ССЫЛКА НА ВАШ РАБОЧИЙ CLOUDFLARE WORKER
-const WORKER_URL = "/api/create-order"; // Замените на вашу ссылку
+const WORKER_URL = "*/api/create-order"; // Замените на вашу ссылку
 
 // ==========================================
 // 2. БАЗОВАЯ ЛОГИКА МЕНЮ И КУКИ
