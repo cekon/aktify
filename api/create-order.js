@@ -8,7 +8,7 @@ function sha256(message) {
 export default async function handler(req, res) {
   // Настройка CORS-заголовков
   const corsHeaders = {
-    "Access-Control-Allow-Origin": "https://aktify.ru", // При желании замените на "https://aktify.ru"
+    "Access-Control-Allow-Origin": "*", // При желании замените на "https://aktify.ru"
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
