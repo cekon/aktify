@@ -661,62 +661,67 @@
 
 /* Оптимизация галереи под мобильные устройства */
 @media (max-width: 900px) {
-    .modal-gallery {
-        grid-template-columns: 1fr !important; /* Перестраиваем в одну колонку */
-        padding: 15px !important;
-        gap: 10px !important;
-    }
-
-    /* Смещаем миниатюры под главную картинку в горизонтальный ряд */
-    #productModal .gallery-thumbs {
-        flex-direction: row !important;
-        max-height: none !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        padding: 5px 0;
-        justify-content: center;
-        order: 2; /* Миниатюры теперь снизу */
-    }
-
-    #productModal .gallery-main {
-        order: 1; /* Главная сцена сверху */
-    }
-
-    #productModal .thumb {
-        width: 60px !important;
-        height: 80px !important; /* Сохраняем пропорции 3:4 */
-    }
-    
-    /* Добавляем визуальную подсказку (точки/индикатор) или отступы для свайпа */
-    .gallery-stage {
-        touch-action: pan-y !important; /* Разрешаем вертикальный скролл страницы, блокируя горизонтальный для свайпа */
-    }
-	
-	
-	
-}
-
-/* Кастомизация полноэкранного режима при клике */
-.gallery-stage.fullscreen {
+/* 1. Фиксируем модальное окно по центру экрана, а не вверху страницы */
+  #productModal,
+  .modal[open] {
+    grid-template-columns: 1fr !important;
     position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    max-height: none !important;
-    aspect-ratio: auto !important;
-    z-index: 9999 !important;
-    background: rgba(0, 0, 0, 0.95) !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-height: 90vh !important; /* Окно не превышает 90% высоты экрана */
+    width: calc(100% - 24px) !important;
     margin: 0 !important;
-    border-radius: 0 !important;
-    cursor: zoom-out;
-}
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important; /* Сама карточка не скроллится, скроллится контент */
+  }
 
-.gallery-stage.fullscreen .gallery-img {
-    max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
-}
-/* 4. Закрепляем кнопку "Купить" внизу экрана смартфона */
+  /* 2. Делаем внутреннюю структуру скроллируемой */
+  .modal-gallery {
+    grid-template-columns: 1fr !important;
+    padding: 15px !important;
+    gap: 10px !important;
+    overflow-y: auto !important; /* Позволяет листать галерею и миниатюры внутри */
+    flex: 1 !important;
+  }
+
+  .modal-copy {
+    padding: 20px 15px !important;
+    overflow-y: auto !important; /* Позволяет листать описание, если оно длинное */
+    flex: 2 !important;
+    background: #fff;
+  }
+
+  /* 3. Уменьшаем размер галереи на мобильных, чтобы сразу виднелось описание */
+  #productModal .gallery-stage {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 250px !important; /* Ограничиваем высоту главной картинки */
+    aspect-ratio: 4/3 !important; /* Переводим в горизонтальный формат для экономии места */
+  }
+
+  #productModal .gallery-main {
+    order: 1;
+  }
+
+  /* Миниатюры перемещаем под галерею */
+  #productModal .gallery-thumbs {
+    flex-direction: row !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 5px 0;
+    justify-content: center;
+    order: 2;
+  }
+
+  #productModal .thumb {
+    width: 50px !important;
+    height: 50px !important; /* Делаем миниатюры компактными квадратными */
+  }
+
+  /* 4. Закрепляем кнопку "Купить" внизу экрана смартфона */
   .buy-row {
     position: sticky !important;
     bottom: 0 !important;
@@ -737,3 +742,5 @@
     background: rgba(255, 255, 255, 0.95) !important;
     border: 1px solid rgba(0, 0, 0, 0.2) !important;
   }
+}
+
